@@ -137,7 +137,7 @@ function showLeagues(leagueArray) {
     var row = document.createElement('tr');
     row.innerHTML = '<td><a href="' + repoHome + '/league/#league=' + league.slug + '">' + league.title + '</a></td>';
     row.innerHTML += '<td>' + league.running.toString() + '</td>';
-    if (league.accepting && !league.running && repoType == 'User' && userType == 'owner') {
+    if (league.accept && !league.running && repoType == 'User' && userType == 'owner') {
       row.innerHTML += '<td><a href="." onclick="applyLeague(event, \'' + league.slug + '\');">Apply</a></td>';
     } else {
       row.innerHTML += '<td></td>';
@@ -402,7 +402,7 @@ function loadSetup() {
       loadLeagues();
     },
     err: function() {
-      if (repoType == 'Organization' && userType == 'owner' && urlSlash[2]!='setup') {
+      if (repoType == 'Organization' && userType == 'owner' && urlSlash[2] != 'setup') {
         domAlert('warning: no setup, <a href="' + repoHome + '/setup/">create</a>');
       } else domAlert('error: no setup');
       loadPagescript();
@@ -473,7 +473,7 @@ function b64d(str) {
 function applyLeague(e, slug) {
   e.preventDefault();
   apiCall({
-    url: 'https://api.github.com/repos/' + repoContent.parent.full_name + 'issues',
+    url: 'https://api.github.com/repos/' + repoContent.parent.full_name + '/issues',
     method: 'POST',
     data: '{"title":"Apply to league ' + slug + '"}',
     cb: function () {
